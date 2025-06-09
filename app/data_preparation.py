@@ -49,10 +49,5 @@ def prepare_usage_data(subs,usage,cars):
     # conversion of month to datetime format
     usage_full['year_month'] = pd.to_datetime(usage_full['month'] + "-01", errors='coerce')
     usage_full = usage_full.dropna(subset=['year_month'])  # Drop rows with bad dates
+    return usage_full
 
-def main():
-    customers, cars, subs, usage, maintenance = load_data()
-    prepare_usage_data(subs,usage,cars)
-
-if __name__ == '__main__':
-    main()
