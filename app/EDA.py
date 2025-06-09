@@ -1,8 +1,14 @@
+import os
+
 import pandas as pd
 from data_preparation import load_data, prepare_usage_data
 
 customers, cars, subs, usage, maintenance = load_data()
 usage_full = prepare_usage_data(subs, usage, cars)
+
+data = "../data/csv"
+os.makedirs(data, exist_ok=True)
+
 
 maintenance_full = maintenance.merge(cars, left_on="car_id",right_on="id",suffixes=('','_car'))
 
@@ -62,3 +68,22 @@ km_distribution = usage_by_sub.describe()
 
 type_comparison = usage_full.groupby("type")["km_driven"].agg(["sum", "mean"])
 
+kms_per_brand.to_csv(f"{data}/kms_per_brand.csv")
+avg_km_by_type.to_csv(f"{data}/avg_km_by_type.csv")
+churn_by_month.to_csv(f"{data}/churn_by_month.csv")
+avg_maint_cost_by_type.to_csv(f"{data}/avg_maint_cost_by_type.csv")
+monthly_km_trend.to_csv(f"{data}/monthly_km_trend.csv")
+kms_by_customer.to_csv(f"{data}/kms_by_customer.csv")
+monthly_km_trend_by_customer.to_csv(f"{data}/monthly_km_trend_by_customer.csv")
+maint_per_brand.to_csv(f"{data}/maint_per_brand.csv")
+avg_sub_duration.to_csv(f"{data}/avg_sub_duration.csv")
+subs[["customer_id", "duration_days"]].to_csv(f"{data}/customer_duration_days.csv", index=False)
+pd.Series({"repeat_rate": repeat_rate}).to_csv(f"{data}/repeat_rate.csv")
+pd.Series({"avg_duration": avg_duration}).to_csv(f"{data}/avg_duration.csv")
+avg_duration_by_brand.to_csv(f"{data}/avg_duration_by_brand.csv")
+duration_distribution.to_csv(f"{data}/duration_distribution.csv")
+monthly_maint_cost.to_csv(f"{data}/monthly_maint_cost.csv")
+top_maintenance.to_csv(f"{data}/top_maintenance.csv", index=False)
+usage_by_sub.to_csv(f"{data}/usage_by_sub.csv")
+km_distribution.to_csv(f"{data}/km_distribution.csv")
+type_comparison.to_csv(f"{data}/type_comparison.csv")
